@@ -47,7 +47,8 @@ HIST_STAMPS="dd/mm/yyyy"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git colorize colored-man common-aliases copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
+# REMOVED: common-aliases
+plugins=(git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
 #virtualenvwrapper 
 #
 source $ZSH/oh-my-zsh.sh
