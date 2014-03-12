@@ -182,7 +182,6 @@ export EDITOR=vim
 
 
 
-
 ## this one is very nice:
 ## cursor up/down look for a command that started like the one starting on the command line
 #function history-search-end {
@@ -315,4 +314,12 @@ export PMI_ZSHRC_SET=1
 #export PATH=$PATH:/home/epcim/lotus/notes/data
 #export PATH=$PATH:/etc/alternatives
 #export PATH=$PATH:/opt/libreoffice3.5/program
+
+#Chef
+function knife-reset-gtshub {
+  ORGNAME=gtshub
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+knife-reset-gtshub
 
