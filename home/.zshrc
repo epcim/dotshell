@@ -324,3 +324,9 @@ function knife-reset-gtshub {
 }
 knife-reset-gtshub
 
+function knife-reset-projectkb {
+  ORGNAME=projectkb
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+knife-reset-projectkb
