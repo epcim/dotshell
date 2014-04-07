@@ -48,7 +48,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # REMOVED: common-aliases
-plugins=(git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
+plugins=(history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
 #virtualenvwrapper 
 #
 source $ZSH/oh-my-zsh.sh
@@ -208,17 +208,12 @@ export EDITOR=vim
 #zle -N history-beginning-search-backward-end history-search-end
 #zle -N history-beginning-search-forward-end history-search-end
 
-# some keys
-#bindkey "\e[A" history-beginning-search-backward #cursor up
-#bindkey "\e[B" history-beginning-search-forward  #cursor down
-#bindkey "\e[A" history-beginning-search-backward-end #cursor up
-#bindkey "\e[B" history-beginning-search-forward-end
-
-#bindkey '^[[A' up-line-or-search
-#bindkey '^[[B' down-line-or-search
-
-bindkey '\e[A' history-search-backward
-bindkey '\e[B' history-search-forward
+# history search
+bindkey '\e[A' history-substring-search-up
+bindkey '\e[B' history-substring-search-down
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 #for keymap in v a; do
 #      bindkey -$keymap ^f  history-incremental-search-backward
