@@ -208,9 +208,10 @@ export EDITOR=vim
 #zle -N history-beginning-search-backward-end history-search-end
 #zle -N history-beginning-search-forward-end history-search-end
 
-# history search
+# history search # Ubuntu 12.04 users: bindkey '^[[A'
 bindkey '\e[A' history-substring-search-up
 bindkey '\e[B' history-substring-search-down
+
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
