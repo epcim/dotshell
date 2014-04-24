@@ -325,4 +325,9 @@ function knife-reset-projectkb {
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
   export ORGNAME SSL_CERT_FILE
 }
-knife-reset-projectkb
+
+function ssh-config-compile {
+    mv ~/.ssh/config ~/.ssh/config.old
+    cat ~/.ssh/config.d/* > ~/.ssh/config;
+}
+
