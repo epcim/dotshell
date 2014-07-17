@@ -10,3 +10,4 @@ wmname LG3D
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
+export PATH=$HOME/hg2g/apps/git-annex.linux:$PATH

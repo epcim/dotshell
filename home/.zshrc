@@ -301,7 +301,10 @@ export PATH=$PATH:/opt/IBM/db2/V8.1/bin
 export PATH=$PATH:/usr/lib/qt-3.3/bin
 export PATH=/opt/openoffice4/program:$PATH
 
-export CDPATH=".:~/hg2g"
+export CDPATH=".:~/hg2g:$CDPATH"
+export PROJECTS=$HOME/annex/cli-ibm/projects
+test -e $PROJECTS && export CDPATH="$CDPATH:$PROJECTS"
+
 psg () { ps -ax | grep $* | grep -v grep }    # hleda v bezicich procesech
 
 
