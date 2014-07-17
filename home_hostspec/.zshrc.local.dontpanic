@@ -1,0 +1,17 @@
+
+#ZSH_THEME="solarized-powerline"
+#ZSH_THEME="powerline"
+#
+export PATH=$HOME/hg2g/apps/git-annex.linux:$PATH
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+export PATH="$HOME/hg2g/apps/npm/bin:$PATH"
+
+
+function my-vbox-start {
+    for i in `cd /etc/init.d; ls vbo*`;do sudo service $i start;done
+}
+
+
+
