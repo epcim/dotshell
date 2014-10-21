@@ -316,18 +316,25 @@ export PMI_ZSHRC_SET=1
 #export PATH=$PATH:/opt/libreoffice3.5/program
 
 #Chef
-function knife-reset-gtshub {
+function knife-reset-bo {
   ORGNAME=gtshub
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
   export ORGNAME SSL_CERT_FILE
 }
-knife-reset-gtshub
+knife-reset-bo
 
-function knife-reset-projectkb {
+function knife-reset-kb {
   ORGNAME=projectkb
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
   export ORGNAME SSL_CERT_FILE
 }
+
+function knife-reset-vums {
+  ORGNAME=vums
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+
 
 function ssh-config-compile {
     mv ~/.ssh/config ~/.ssh/config.old
