@@ -47,7 +47,8 @@ HIST_STAMPS="dd/mm/yyyy"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant svn sudo sublime vi-mode screen )
+# REMOVED: common-aliases
+plugins=(history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
 #virtualenvwrapper 
 #
 source $ZSH/oh-my-zsh.sh
@@ -182,7 +183,6 @@ export EDITOR=vim
 
 
 
-
 ## this one is very nice:
 ## cursor up/down look for a command that started like the one starting on the command line
 #function history-search-end {
@@ -208,17 +208,13 @@ export EDITOR=vim
 #zle -N history-beginning-search-backward-end history-search-end
 #zle -N history-beginning-search-forward-end history-search-end
 
-# some keys
-#bindkey "\e[A" history-beginning-search-backward #cursor up
-#bindkey "\e[B" history-beginning-search-forward  #cursor down
-#bindkey "\e[A" history-beginning-search-backward-end #cursor up
-#bindkey "\e[B" history-beginning-search-forward-end
+# history search # Ubuntu 12.04 users: bindkey '^[[A'
+bindkey '\e[A' history-substring-search-up
+bindkey '\e[B' history-substring-search-down
 
-#bindkey '^[[A' up-line-or-search
-#bindkey '^[[B' down-line-or-search
-
-bindkey '\e[A' history-search-backward
-bindkey '\e[B' history-search-forward
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 #for keymap in v a; do
 #      bindkey -$keymap ^f  history-incremental-search-backward
@@ -305,7 +301,10 @@ export PATH=$PATH:/opt/IBM/db2/V8.1/bin
 export PATH=$PATH:/usr/lib/qt-3.3/bin
 export PATH=/opt/openoffice4/program:$PATH
 
-export CDPATH=".:~/hg2g"
+export CDPATH=".:~/hg2g:$CDPATH"
+export PROJECTS=$HOME/annex/cli-ibm/projects
+test -e $PROJECTS && export CDPATH="$CDPATH:$PROJECTS"
+
 psg () { ps -ax | grep $* | grep -v grep }    # hleda v bezicich procesech
 
 
@@ -315,4 +314,30 @@ export PMI_ZSHRC_SET=1
 #export PATH=$PATH:/home/epcim/lotus/notes/data
 #export PATH=$PATH:/etc/alternatives
 #export PATH=$PATH:/opt/libreoffice3.5/program
+
+#Chef
+function knife-reset-bo {
+  ORGNAME=gtshub
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+knife-reset-bo
+
+function knife-reset-kb {
+  ORGNAME=projectkb
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+
+function knife-reset-vums {
+  ORGNAME=vums
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  export ORGNAME SSL_CERT_FILE
+}
+
+
+function ssh-config-compile {
+    mv ~/.ssh/config ~/.ssh/config.old
+    cat ~/.ssh/config.d/* > ~/.ssh/config;
+}
 
