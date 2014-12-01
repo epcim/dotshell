@@ -6,7 +6,9 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
-wmname LG3D
+which wmname >/dev/null && wmname LG3D
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
+
+export PATH=/Applications/git-annex.app/Contents/MacOS
