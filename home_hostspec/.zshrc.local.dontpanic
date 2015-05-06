@@ -2,8 +2,15 @@
 #ZSH_THEME="solarized-powerline"
 #ZSH_THEME="powerline"
 #
+
+# custom completion
+autoload -U $HOME/.config/zsh/completion/_git-annex
+
+# go
+export GOPATH=$HOME/hg2g/workspace-go
+
 export PATH=/usr/local/packer:$PATH
-export PATH=$HOME/hg2g/apps/git-annex.linux:$PATH
+#export PATH=$HOME/git-annex.linux:$PATH
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
@@ -15,4 +22,5 @@ function my.vbox-start {
 }
 
 
+eval "$(chef shell-init zsh)"
 

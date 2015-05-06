@@ -316,23 +316,31 @@ export PMI_ZSHRC_SET=1
 #export PATH=$PATH:/opt/libreoffice3.5/program
 
 #Chef
-function knife-reset-bo {
-  ORGNAME=gtshub
-  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  export ORGNAME SSL_CERT_FILE
+
+function knife-reset {
+  export SSL_CERT_FILE=/opt/chefdk/embedded/ssl/certs/cacert.pem
 }
-knife-reset-bo
+knife-reset
+
+function knife-reset-bo {
+  export ORGNAME=gtshub
+  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
+}
 
 function knife-reset-kb {
-  ORGNAME=projectkb
+  export ORGNAME=projectkb
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  export ORGNAME SSL_CERT_FILE
+  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
 }
 
 function knife-reset-vums {
-  ORGNAME=vums
+  export ORGNAME=vums
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  export ORGNAME SSL_CERT_FILE
+  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
 }
 
 
