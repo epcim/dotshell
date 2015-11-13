@@ -296,7 +296,7 @@ bindkey '^[^e' expand-alias
 
 alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS 
 
-export PATH=$PATH:/bin:/usr/bin:/sbin:/usr/sbin:/opt/bin/:~/bin:~/opt/bin:/usr/local/bin/:/usr/X11R6/bin/:~/opt/vuze/:~/opt/eclipse/:~/hg2g/dev/workspace-android/android-sdk-linux_86:~/hg2g/dev/workspace-android/android-sdk-linux_86/tools
+export PATH=$PATH:/bin:/usr/bin:/sbin:/usr/sbin:/opt/bin:~/bin:~/opt/bin:/usr/local/bin:/usr/X11R6/bin:~/opt/vuze:~/opt/eclipse:~/hg2g/dev/workspace-android/android-sdk-linux_86:~/hg2g/dev/workspace-android/android-sdk-linux_86/tools
 export PATH=$PATH:/opt/IBM/db2/V8.1/bin
 export PATH=$PATH:/usr/lib/qt-3.3/bin
 export PATH=/opt/openoffice4/program:$PATH
@@ -321,7 +321,6 @@ function knife-reset-bo {
   export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
   export ORGNAME SSL_CERT_FILE
 }
-knife-reset-bo
 
 function knife-reset-kb {
   ORGNAME=projectkb
@@ -341,3 +340,6 @@ function ssh-config-compile {
     cat ~/.ssh/config.d/* > ~/.ssh/config;
 }
 
+
+#fix
+export PATH=/usr/local/bin:$PATH
