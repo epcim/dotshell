@@ -123,16 +123,41 @@ end
 
 ####################################################
 ## GIT
+
+alias gs='clear ;and git status'
+alias gb='git branch'
+alias gbranch='git rev-parse --abbrev-ref HEAD' #get current branch name
+alias gl="clear ;and git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gt='git tag'
+alias grm='git rm'
+alias gps='git push'
+alias gbi='git bisect'
+alias gbg='git bisect good'
+alias gbb='git bisect bad'
+alias gco='git checkout'
+alias gm='git merge'
+alias gmt='git mergetool'
+alias gdt='git difftool'
+alias gp='git pull'
+alias gpr='git pull --rebase'
+alias gup='git stash ;and git pull --rebase ;and git stash apply'
+alias gr='git rebase'
+alias gri='git rebase -i'
+alias gst='git stash'
+alias gsta='git stash apply'
+alias gunstage='git reset HEAD'
+
+# checkout pull request
+function gcopr
+   git fetch origin pull/$argv/head:pr-$argv ;and git checkout pr-$argv;
+end
+
 alias ga 'git add'
-alias gd 'git d'
-alias gs 'git status'
+alias gd 'git diff'
 alias gc 'git commit'
-alias gl 'git log'
-alias gb 'git branch'
 alias gti git
 alias a 'git amend'
-alias gr 'git recent-branches 2.days.ago'
-alias ggco 'git switch'
+alias gbr 'git recent-branches 2.days.ago'
 
 function git-search
     git log -S"$argv" --pretty=format:%H | map git show 
@@ -159,7 +184,7 @@ end
 ####################################################
 ## COLORIZE
 
-#set LS_COLORS dxfxcxdxbxegedabagacad
+set LS_COLORS dxfxcxdxbxegedabagacad
 
 # Colorized cat (will guess file type based on contents)
 alias ccat 'pygmentize -g'
