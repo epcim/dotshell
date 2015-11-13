@@ -8,6 +8,8 @@ autoload -U $HOME/.config/zsh/completion/_git-annex
 
 # go
 export GOPATH=$HOME/hg2g/workspace-go
+export PATH=$GOPATH/bin:$PATH
+export PATH=/usr/local/go/bin:$PATH
 
 export PATH=/usr/local/packer:$PATH
 #export PATH=$HOME/git-annex.linux:$PATH

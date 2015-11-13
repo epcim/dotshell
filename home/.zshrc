@@ -107,10 +107,11 @@ source $HOME/.zshrc.aliases
 source $HOME/.zshrc.local
 
 HOWTO="$HOME/hg2g/howto"
-HG2GL="/hg2g/home/pmichalec/hg2g"
+HG2G="/hg2g/home/pmichalec/hg2g"
 
 which wmname > /dev/null && wmname LG3D
 export TERM="xterm-256color"
+#export TERM=screen-256color       # for a tmux -2 session (also for screen)
 export AWT_TOOLKIT=MToolkit
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
@@ -318,34 +319,128 @@ export PMI_ZSHRC_SET=1
 #Chef
 
 function knife-reset {
+  # set environment for knife/chef
   export SSL_CERT_FILE=/opt/chefdk/embedded/ssl/certs/cacert.pem
+  alias ack="ack --ignore-dir .kitchen" # to ignore log files from CI
 }
 knife-reset
 
-function knife-reset-bo {
+function knife-reset-apealive_net {
+  knife-reset
+  export CHEF_SERVER='https://api.opscode.com/organizations/apealive_net'
+  export ORGNAME=apealive_net
+  export ORGUSER=apealive
+  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
+}
+
+function knife-reset-blueit_cz {
+  knife-reset
+  export CHEF_SERVER='https://api.opscode.com/organizations/blueit_cz'
+  export ORGNAME=blueit_cz
+  export ORGUSER=apealive
+  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
+}
+
+function knife-reset-gtshub {
+  knife-reset
+  #export CHEF_SERVER='https://10.10.x.x'
   export ORGNAME=gtshub
-  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
+  export ORGUSER=$USER
+  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
 }
 
 function knife-reset-kb {
+  knife-reset
+  #export CHEF_SERVER='https://10.10.x.x'
   export ORGNAME=projectkb
-  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
+  export ORGUSER=$USER
+  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
 }
 
 function knife-reset-vums {
+  knife-reset
+  export CHEF_SERVER='https://chef.vums.blueit'
   export ORGNAME=vums
-  export SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$USER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validation_key.pem $HOME/.chef/validation_key.pem
+  export ORGUSER=$USER
+  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
+  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
+  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
 }
-
 
 function ssh-config-compile {
     mv ~/.ssh/config ~/.ssh/config.old
     cat ~/.ssh/config.d/* > ~/.ssh/config;
 }
+
+
+## https://github.com/vincentbernat/zshrc/blob/master/rc/bookmarks.zsh
+
+# Handle bookmarks. This uses the static named directories feature of
+# zsh. Such directories are declared with `hash -d
+# name=directory`. Both prompt expansion and completion know how to
+# handle them. We populate the hash with directories.
+#
+# With autocd, you can just type `~-bookmark`. Since this can be
+# cumbersome to type, you can also type `@@` and this will be turned
+# into `~-` by ZLE.
+
+#is-at-least 4.3.12 && __() {
+__() {
+    MARKPATH=$ZSH/run/marks
+
+    # Add some static entries
+    hash -d log=/var/log
+    hash -d doc=/usr/share/doc
+
+    # Populate the hash
+    for link ($MARKPATH/*(N@)) {
+        hash -d -- -${link:t}=${link:A}
+    }
+
+    vbe-insert-bookmark() {
+        emulate -L zsh
+        LBUFFER=${LBUFFER}"~-"
+    }
+    zle -N vbe-insert-bookmark
+    bindkey '@@' vbe-insert-bookmark
+
+    # Manage bookmarks
+    bookmark() {
+        [[ -d $MARKPATH ]] || mkdir -p $MARKPATH
+        if (( $# == 0 )); then
+            # When no arguments are provided, just display existing
+            # bookmarks
+            for link in $MARKPATH/*(N@); do
+                local markname="$fg[green]${link:t}$reset_color"
+                local markpath="$fg[blue]${link:A}$reset_color"
+                printf "%-30s -> %s\n" $markname $markpath
+            done
+        else
+            # Otherwise, we may want to add a bookmark or delete an
+            # existing one.
+            local -a delete
+            zparseopts -D d=delete
+            if (( $+delete[1] )); then
+                # With `-d`, we delete an existing bookmark
+                command rm $MARKPATH/$1
+            else
+                # Otherwise, add a bookmark to the current
+                # directory. The first argument is the bookmark
+                # name. `.` is special and means the bookmark should
+                # be named after the current directory.
+                local name=$1
+                [[ $name == "." ]] && name=${PWD:t}
+                ln -s $PWD $MARKPATH/$name
+            fi
+        fi
+    }
+} && __
 
