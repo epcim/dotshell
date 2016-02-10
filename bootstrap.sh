@@ -31,3 +31,7 @@ ln -s $HOME/.homesick/repos/dircolors-solarized/dircolors.256dark $HOME/.dir_col
 #which zsh && chsh -s $(which zsh)
 which fish && chsh -s $(which fish)
 
+
+# install z
+wget https://raw.githubusercontent.com/rupa/z/master/z.sh -O ~/bin/z.sh
+chmod u+x ~/bin/z.sh

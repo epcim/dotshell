@@ -16,6 +16,7 @@ alias j jobs
 alias l 'ls -la --color'
 alias ll 'ls -lrta --color'
 alias ls 'command ls -FG'
+alias lsn 'stat -c "%a %n" '
 alias su 'command su -m'
 alias map 'xargs -n1'
 alias collapse "sed -e 's/  */ /g'"
@@ -130,7 +131,7 @@ alias gbranch='git rev-parse --abbrev-ref HEAD' #get current branch name
 alias gl="clear ;and git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gt='git tag'
 alias grm='git rm'
-alias gps='git push'
+alias gp='git push'
 alias gbi='git bisect'
 alias gbg='git bisect good'
 alias gbb='git bisect bad'
@@ -138,7 +139,7 @@ alias gco='git checkout'
 alias gm='git merge'
 alias gmt='git mergetool'
 alias gdt='git difftool'
-alias gp='git pull'
+alias gpl='git pull'
 alias gpr='git pull --rebase'
 alias gup='git stash ;and git pull --rebase ;and git stash apply'
 alias gr='git rebase'
@@ -184,10 +185,8 @@ end
 ####################################################
 ## COLORIZE
 
-# OSX
-set LSCOLORS dxfxcxdxbxegedabagacad
-# Linux/GNU
-#set LS_COLORS dxfxcxdxbxegedabagacad
+# Linux/GNU /  # OSX
+test -e /etc/lsb-release ;and set LS_COLORS dxfxcxdxbxegedabagacad ;or set LSCOLORS dxfxcxdxbxegedabagacad
 
 # Colorized cat (will guess file type based on contents)
 alias ccat 'pygmentize -g'
