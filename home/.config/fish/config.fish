@@ -4,6 +4,10 @@ set -gx OMF_PATH /Users/pmichalec/.local/share/omf
 # Customize Oh My Fish configuration path.
 #set -gx OMF_CONFIG /Users/pmichalec/.config/omf
 
+
+# z
+set -g Z_SCRIPT_PATH $HOME/bin/z.sh
+
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
 
@@ -11,8 +15,23 @@ source $OMF_PATH/init.fish
 source $HOME/.oh-my-fish
 source $HOME/.config/fish/aliases.fish
 
+# rbenv
+function init_rbenv
+    set LD_LIBRARY_PATH $HOME/.rbenv/versions/(cat $HOME/.rbenv/version)/lib $LD_LIBRARY_PATH
+    set PATH $HOME/.rbenv/bin $PATH; and \
+    set PATH $HOME/.rbenv/shims $PATH; and \
+    rbenv rehash >/dev/null ^&1
+    rbenv init - fish | source
+end
+test -e $HOME/.rbenv ; and init_rbenv
+
+# chef
+test -e ~/.chefdk;and chef shell-init fish | source
+
+
 #set fish_color_hostname 'a67523'
-#set -gx fish_greeting ''
+set -gx fish_greeting ''
+
 
 ## Key bindings
 function fish_user_key_bindings
@@ -132,3 +151,45 @@ function virtualenv_prompt
 end
 
 
+
+#################################################
+## SSH && SSH AGENT (SEE FUNCTIONS)
+setenv SSH_ENV $HOME/.ssh/environment
+
+function start_agent
+	if [ -n "$SSH_AGENT_PID" ]
+    		ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
+    		if [ $status -eq 0 ]
+        		test_identities
+    		end
+	else
+    		if [ -f $SSH_ENV ]
+        		. $SSH_ENV > /dev/null
+    		end
+    	ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
+    	if [ $status -eq 0 ]
+        	test_identities
+    	else
+    		echo "Initializing new SSH agent ..."
+	        ssh-agent -c | sed 's/^echo/#echo/' > $SSH_ENV
+    		echo "succeeded"
+		chmod 600 $SSH_ENV 
+		. $SSH_ENV > /dev/null
+    		ssh-add
+	end
+	end
+end
+
+
+function test_identities                                                                                                                                                                
+    ssh-add -l | grep "The agent has no identities" > /dev/null
+    if [ $status -eq 0 ]
+        ssh-add
+        if [ $status -eq 2 ]
+            start_agent
+        end
+    end
+end
+
+
+start_agent
