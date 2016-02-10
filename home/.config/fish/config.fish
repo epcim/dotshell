@@ -7,6 +7,9 @@ set -gx OMF_PATH /Users/pmichalec/.local/share/omf
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
 
+# Load homeshick
+source $HOME/.homesick/repos/homeshick/homeshick.fish
+
 # load rc
 source $HOME/.oh-my-fish
 source $HOME/.config/fish/aliases.fish
