@@ -185,7 +185,8 @@ end
 ####################################################
 ## COLORIZE
 
-#set LS_COLORS dxfxcxdxbxegedabagacad
+# Linux/GNU /  # OSX
+test -e /etc/lsb-release ;and set LS_COLORS dxfxcxdxbxegedabagacad ;or set LSCOLORS dxfxcxdxbxegedabagacad
 
 # Colorized cat (will guess file type based on contents)
 alias ccat 'pygmentize -g'

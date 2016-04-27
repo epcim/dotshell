@@ -11,6 +11,9 @@ set -g Z_SCRIPT_PATH $HOME/bin/z.sh
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
 
+# Load homeshick
+source $HOME/.homesick/repos/homeshick/homeshick.fish
+
 # load rc
 source $HOME/.oh-my-fish
 source $HOME/.config/fish/aliases.fish
