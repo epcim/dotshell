@@ -6,6 +6,11 @@
 # custom completion
 autoload -U $HOME/.config/zsh/completion/_git-annex
 
+## Prepend paths
+#ppath() {
+# [ -d "${1}" ] && PATH="${1}:${PATH}"
+#}
+
 # go
 export GOPATH=$HOME/hg2g/workspace-go
 export PATH=$GOPATH/bin:$PATH
