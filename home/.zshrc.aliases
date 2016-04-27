@@ -9,7 +9,7 @@ alias rm="nocorrect rm -i"
 alias mv="nocorrect mv -i"
 alias df='df -h'
 
-[[ "$(uname -s)" == "Darwin" ]] && {
+test "$(uname -s)" = "Darwin" -a "$(which ls)" = "/usr/bin/ls" && {
   alias ls='ls -h -G'
   alias ll='ls -rtalh -G' # bez ll nema smysl zit
 } || {
