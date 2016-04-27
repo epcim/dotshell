@@ -4,16 +4,19 @@ bindkey '^[^e' expand-alias
 #
 # It should contain commands to set up aliases,
 alias gdmsw=gdmflexiserver
-#alias ls="ls -F --color"     # BARVY
-alias sl="ls -F --color"     # BARVY
 alias cp="nocorrect cp -i --reflink=auto"   # opatrn? kop?rov?n?, maz?n? a p?esuny
 alias rm="nocorrect rm -i"
 alias mv="nocorrect mv -i"
 alias df='df -h'
-#alias ls='ls -h --color=auto'
-alias ls='ls -h --color=always'
-#alias ll='ls -rtalh --color=always' # bez ll nema smysl zit
-alias ll='ls -rtalh --color=always' # bez ll nema smysl zit
+
+[[ "$(uname -s)" == "Darwin" ]] && {
+  alias ls='ls -h -G'
+  alias ll='ls -rtalh -G' # bez ll nema smysl zit
+} || {
+  alias ls='ls -h --color=always'
+  alias ll='ls -rtalh --color=always' # bez ll nema smysl zit
+}
+alias sl=ls
 alias du='du -h'
 alias links='links -g'
 alias ys="sudo yum search"
@@ -77,6 +80,14 @@ alias got='git '
 alias get='git '
 alias gl='git lg'
 alias gh='git lg'
+
+## git gr (npm install -g git-run)
+alias grd "gr git diff"
+alias grdc "gr git diff --cached"
+alias grs "gr status"
+alias grl "gr git --no-pager log --decorate --graph --oneline -n 3"
+
+####################################################
 #homeshick
 alias hs='homeshick'
 alias hst='homeshick track'
@@ -97,7 +108,7 @@ alias zz='shutter -s'
 
 
 #grep
-alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS 
+#alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS 
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
@@ -160,7 +171,7 @@ alias be="bundle exec"
 
 #programming
 which ack || alias ack="ack-grep"
-alias tasks='grep --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn -rEI "TODO|FIXME|TBD|GRRR|HACK" . 2>/dev/null '
+#alias tasks='grep --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn -rEI "TODO|FIXME|TBD|GRRR|HACK" . 2>/dev/null '
 
 # gist
 alias gistAdd="gist -co"

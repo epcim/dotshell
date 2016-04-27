@@ -130,20 +130,21 @@ alias gb='git branch'
 alias gbranch='git rev-parse --abbrev-ref HEAD' #get current branch name
 alias gl="clear ;and git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gt='git tag'
-alias grm='git rm'
+#alias grm='git rm'
 alias gp='git push'
 alias gbi='git bisect'
 alias gbg='git bisect good'
 alias gbb='git bisect bad'
 alias gco='git checkout'
+alias ggo='git checkout'
 alias gm='git merge'
 alias gmt='git mergetool'
 alias gdt='git difftool'
 alias gpl='git pull'
 alias gpr='git pull --rebase'
 alias gup='git stash ;and git pull --rebase ;and git stash apply'
-alias gr='git rebase'
-alias gri='git rebase -i'
+#alias gr='git rebase'
+#alias gri='git rebase -i'
 alias gst='git stash'
 alias gsta='git stash apply'
 alias gunstage='git reset HEAD'
@@ -164,6 +165,19 @@ function git-search
     git log -S"$argv" --pretty=format:%H | map git show 
 end
 
+## git gr (npm install -g git-run)
+function grd
+    gr @$argv[1..-1] git diff
+end
+function grdc
+    gr @$argv[1..-1] git diff --cached
+end
+function grl
+    gr @$argv[1..-1] git --no-pager log --decorate --graph --oneline -n 3
+end
+function grs
+    gr @$argv[1..-1] git status
+end
 
 ####################################################
 ## CLEANUPS
