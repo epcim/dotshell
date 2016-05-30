@@ -35,3 +35,6 @@ which fish && chsh -s $(which fish)
 # install z
 wget https://raw.githubusercontent.com/rupa/z/master/z.sh -O ~/bin/z.sh
 chmod u+x ~/bin/z.sh
+
+# install fisherman for fish
+npm i -g fisherman # https://github.com/fisherman/fisherman

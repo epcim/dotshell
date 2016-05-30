@@ -17,7 +17,7 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
 export PATH=/usr/local/packer:$PATH
-#export PATH=$HOME/git-annex.linux:$PATH
+export PATH=$HOME/git-annex.linux:$PATH
 #
 
 export LD_LIBRARY_PATH=$HOME/.rbenv/versions/`cat $HOME/.rbenv/version`/lib:$LD_LIBRARY_PATH # needed for libyam & fix issue on rbenv install...
