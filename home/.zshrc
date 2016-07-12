@@ -48,7 +48,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # REMOVED: common-aliases
-plugins=(history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
+plugins=(z extract history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
 #virtualenvwrapper 
 #
 source $ZSH/oh-my-zsh.sh
@@ -295,14 +295,15 @@ expand-alias() {
 zle -N expand-alias
 bindkey '^[^e' expand-alias
 
-alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS 
+alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS
 
-export PATH=$PATH:/bin:/usr/bin:/sbin:/usr/sbin:/opt/bin:~/bin:~/opt/bin:/usr/local/bin:/usr/X11R6/bin:~/opt/vuze:~/opt/eclipse:~/hg2g/dev/workspace-android/android-sdk-linux_86:~/hg2g/dev/workspace-android/android-sdk-linux_86/tools
-export PATH=$PATH:/opt/IBM/db2/V8.1/bin
-export PATH=$PATH:/usr/lib/qt-3.3/bin
-export PATH=/opt/openoffice4/program:$PATH
+export PATH=$PATH:/bin:/usr/bin:/sbin:/usr/sbin:/opt/bin:~/bin:~/opt/bin:/usr/local/bin:/usr/X11R6/bin
+#export PATH=$PATH:/opt/IBM/db2/V8.1/bin
+#export PATH=$PATH:/usr/lib/qt-3.3/bin
+#export PATH=/opt/openoffice4/program:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
-export CDPATH=".:~/hg2g:$CDPATH"
+export CDPATH=".:~/hg2g:~/annex:$CDPATH"
 export PROJECTS=$HOME/annex/cli-ibm/projects
 test -e $PROJECTS && export CDPATH="$CDPATH:$PROJECTS"
 
