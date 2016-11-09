@@ -157,6 +157,7 @@ alias mc="LANG=C mc"
 alias knife='nocorrect knife'
 alias knife='nocorrect chef'
 alias knife='nocorrect kitchen'
+alias knife='nocorrect bundle exec'
 
 #kitchen ci
 alias k='kitchen'
