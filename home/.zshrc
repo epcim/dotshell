@@ -58,7 +58,7 @@ source $ZSH/oh-my-zsh.sh
 if [ PMI_ZSHRC_SET = 0 ]; then exit 0 ; fi
 export PMI_ZSHRC_SET=0
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/hg2g/apps/npm/bin
 export MANPATH="/usr/local/man:$MANPATH"
 
 # For logins without GDM, start Xorg promptly
@@ -376,10 +376,11 @@ function knife-reset-vums {
   ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
 }
 
-function ssh-config-compile {
-    mv ~/.ssh/config ~/.ssh/config.old
-    cat ~/.ssh/config.d/* > ~/.ssh/config;
-}
+# DEPRECATED: use ~/bin/ssh-config-compile
+#function ssh-config-compile {
+#    mv ~/.ssh/config ~/.ssh/config.old
+#    cat ~/.ssh/config.d/* > ~/.ssh/config;
+#}
 
 
 #fix
@@ -447,4 +448,6 @@ __() {
         fi
     }
 } && __
+
+
 

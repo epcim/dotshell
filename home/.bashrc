@@ -13,3 +13,7 @@ source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
 
 test -e $HOME/Applications/git-annex.app && export PATH=/Applications/git-annex.app/Contents/MacOS:$PATH
 test -e $HOME/hg2g/apps/git-annex.linux && export PATH=$HOME/hg2g/apps/git-annex.linux:$PATH
+
+GOPATH=~/hg2g/workspace-go
+export PATH="$PATH:$GOPATH/bin:~/hg2g/apps/npm/bin"
+
