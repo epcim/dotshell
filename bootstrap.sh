@@ -8,10 +8,17 @@ elif [[ -e /usr/local/bin/brew ]]; then
     brew install git zsh fish homeshick
 fi
 
+# this
 test -e $HOME/.homesick/repos/dotshell || {
     homeshick clone --batch git://github.com/epcim/dotshell.git
 }
-
+# OPTIONALLY
+test -d $HOME/.homesick/repos/dotfiles || \
+    homeshick clone --batch git://github.com/epcim/dotfiles.git
+test -d $HOME/.homesick/repos/dotvim || \
+    homeshick clone --batch git://github.com/epcim/dotvim.git
+    
+    
 # fish & oh-my-fish
 curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
 
@@ -26,6 +33,8 @@ ln -s $HOME/.homesick/repos/oh-my-zsh-powerline-theme/powerline.zsh-theme $HOME/
 ln -s $HOME/.homesick/repos/dircolors-solarized/dircolors.256dark $HOME/.dircolors
 ln -s $HOME/.homesick/repos/dircolors-solarized/dircolors.256dark $HOME/.dir_colors
 
+echo "call all bootstrap.sh (in other repos)"
+find $HOME/.homesick/repos/ -name "bootstrap.sh" -type f -exec echo "{}" ";"
 
 #TODO, remaining move to salt workspace/worksrtation model
 # set default shell
