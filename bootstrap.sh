@@ -8,6 +8,15 @@ elif [[ -e /usr/local/bin/brew ]]; then
     brew install git zsh fish homeshick
 fi
 
+
+# Get homeshick
+which homeshick || {
+    git clone "https://github.com/andsens/homeshick.git" $HOME/.homesick/repos/homeshick
+    source "$HOME/.homesick/repos/homeshick/homeshick.sh"
+}
+
+# ##############################################################
+
 # this
 test -e $HOME/.homesick/repos/dotshell || {
     homeshick clone --batch git://github.com/epcim/dotshell.git
