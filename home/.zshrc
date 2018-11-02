@@ -96,36 +96,22 @@ fi
 #PMi - TB reviewd
 #autoload -U compinit promptinit
 #compinit
-#promptinit; 
+#promptinit;
 #prompt gentoo
 #prompt pws
 
 
 ##################################
-## PMi CUSTOM
+## my
 
+touch $HOME/.env
+source $HOME/.env
 touch $HOME/.zshrc.aliases
 touch $HOME/.zshrc.local
 source $HOME/.zshrc.aliases
 source $HOME/.zshrc.local
-touch $HOME/.env
-source $HOME/.env
 
 ### OH MY ZSH CUSTOMIZATIONS
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -357,9 +343,3 @@ __() {
 
 
 
-
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
-
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -230,6 +230,13 @@ alias gistOnline="echo 'https://gist.github.com/search?utf8=%E2%9C%93&ref=search
 alias urlize="sed 's/ /%20/g'"
 
 
+
+# utilization
+function psg() {
+  ps -ax | grep $* | grep -v grep
+}
+
+
 # beepme
 alias bs='beepme'
 alias bf='beepme fail'
