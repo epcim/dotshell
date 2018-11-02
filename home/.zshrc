@@ -61,6 +61,14 @@ export PMI_ZSHRC_SET=0
 export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/hg2g/apps/npm/bin
 export MANPATH="/usr/local/man:$MANPATH"
 
+
+# linuxbrew
+if [[ -d ~/.linuxbrew ]]; then
+  PATH="$HOME/.linuxbrew/bin:$PATH"
+  export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+  export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
+fi
+
 # For logins without GDM, start Xorg promptly
 # if [ -z "$DISPLAY" ] && [ $(tty) = /dev/tty1 ] ; then
 #   startx --
@@ -92,31 +100,16 @@ fi
 #prompt gentoo
 #prompt pws
 
-# ssh
-export SSH_KEY_PATH="~/.ssh/id_dsa"
-
 
 ##################################
 ## PMi CUSTOM
-
-set -o vi
 
 touch $HOME/.zshrc.aliases
 touch $HOME/.zshrc.local
 source $HOME/.zshrc.aliases
 source $HOME/.zshrc.local
-
-HOWTO="$HOME/hg2g/howto"
-HG2G="/hg2g/home/pmichalec/hg2g"
-
-which wmname > /dev/null && wmname LG3D
-export TERM="xterm-256color"
-#export TERM=screen-256color       # for a tmux -2 session (also for screen)
-export AWT_TOOLKIT=MToolkit
-
-source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
-
+touch $HOME/.env
+source $HOME/.env
 
 ### OH MY ZSH CUSTOMIZATIONS
 #
@@ -154,13 +147,6 @@ setopt hist_no_functions
 setopt no_hist_beep
 setopt hist_save_no_dups
 
-# Set options
-export LANG=en_US.UTF-8
-#export LANG=en_US
-export LC_ALL=en_US.UTF-8
-export LC=en_US.UTF-8
-export BLOCKSIZE=K
-export EDITOR=vim
 
 
 
@@ -295,20 +281,7 @@ expand-alias() {
 zle -N expand-alias
 bindkey '^[^e' expand-alias
 
-alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS
-
-export PATH=$PATH:/bin:/usr/bin:/sbin:/usr/sbin:/opt/bin:~/bin:~/opt/bin:/usr/local/bin:/usr/X11R6/bin
-#export PATH=$PATH:/opt/IBM/db2/V8.1/bin
-#export PATH=$PATH:/usr/lib/qt-3.3/bin
-#export PATH=/opt/openoffice4/program:$PATH
-export PATH=$HOME/.local/bin:$PATH
-
-export CDPATH=".:~/hg2g:~/annex:$CDPATH"
-export PROJECTS=$HOME/annex/cli-ibm/projects
-test -e $PROJECTS && export CDPATH="$CDPATH:$PROJECTS"
-
-psg () { ps -ax | grep $* | grep -v grep }    # hleda v bezicich procesech
-
+#alias grep="grep --color --directories=recurse --exclude='*~'" # pozor neuzivat k tomu GREP_OPTIONS
 
 export PMI_ZSHRC_SET=1
 
@@ -317,74 +290,7 @@ export PMI_ZSHRC_SET=1
 #export PATH=$PATH:/etc/alternatives
 #export PATH=$PATH:/opt/libreoffice3.5/program
 
-#Chef
 
-function knife-reset {
-  # set environment for knife/chef
-  export SSL_CERT_FILE=/opt/chefdk/embedded/ssl/certs/cacert.pem
-  alias ack="ack --ignore-dir .kitchen" # to ignore log files from CI
-}
-knife-reset
-
-function knife-reset-apealive_net {
-  knife-reset
-  export CHEF_SERVER='https://api.opscode.com/organizations/apealive_net'
-  export ORGNAME=apealive_net
-  export ORGUSER=apealive
-  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
-}
-
-function knife-reset-blueit_cz {
-  knife-reset
-  export CHEF_SERVER='https://api.opscode.com/organizations/blueit_cz'
-  export ORGNAME=blueit_cz
-  export ORGUSER=apealive
-  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
-}
-
-function knife-reset-gtshub {
-  knife-reset
-  #export CHEF_SERVER='https://10.10.x.x'
-  export ORGNAME=gtshub
-  export ORGUSER=$USER
-  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
-}
-
-function knife-reset-kb {
-  knife-reset
-  #export CHEF_SERVER='https://10.10.x.x'
-  export ORGNAME=projectkb
-  export ORGUSER=$USER
-  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
-}
-
-function knife-reset-vums {
-  knife-reset
-  export CHEF_SERVER='https://chef.vums.blueit'
-  export ORGNAME=vums
-  export ORGUSER=$USER
-  export CHEF_SSL_CERT_FILE=$HOME/.chef/chef.$ORGNAME.crt
-  ln -fs $HOME/.chef/$ORGNAME-$ORGUSER.pem $HOME/.chef/client.pem
-  ln -fs $HOME/.chef/$ORGNAME-validator.pem $HOME/.chef/validator.pem
-}
-
-# DEPRECATED: use ~/bin/ssh-config-compile
-#function ssh-config-compile {
-#    mv ~/.ssh/config ~/.ssh/config.old
-#    cat ~/.ssh/config.d/* > ~/.ssh/config;
-#}
-
-
-#fix
-export PATH=/usr/local/bin:$PATH
 
 ## https://github.com/vincentbernat/zshrc/blob/master/rc/bookmarks.zsh
 
@@ -451,3 +357,9 @@ __() {
 
 
 
+
+# added by travis gem
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

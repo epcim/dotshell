@@ -17,3 +17,11 @@ test -e $HOME/hg2g/apps/git-annex.linux && export PATH=$HOME/hg2g/apps/git-annex
 GOPATH=~/hg2g/workspace-go
 export PATH="$PATH:$GOPATH/bin:~/hg2g/apps/npm/bin"
 
+
+touch $HOME/.env
+source $HOME/.env
+
+# added by travis gem
+[ -f /home/pmichalec/.travis/travis.sh ] && source /home/pmichalec/.travis/travis.sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

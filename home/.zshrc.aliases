@@ -47,7 +47,13 @@ alias ipconfig='sudo ifconfig '
 alias route='sudo route '
 alias iptables='sudo iptables '
 alias ssh-add='ssh-add < /dev/null'
+alias visudo='sudo visudo'
+alias systemctl='sudo systemctl'
+alias journalctl='sudo journalctl'
 alias vi='sudo vi'
+if $(which nvim > /dev/null); then
+  alias vim='nvim'
+fi
 #alias scrot='scrot "%Y-%m-%d_$wx$h.png" -e "mv $f ~/shots/$f"'
 alias scrot='scrot "screenshot_`date "+%Y-%m-%d-%H%M"`_$RANDOM.png" -e "mv $f ~/shots/$f"'
 #alias alock='alock -auth md5:hash=9240b8caac65bc6825d1c6e7f7cb1040 -cursor theme -bg shade:color=orange,shade=85'
@@ -171,6 +177,11 @@ alias -g X0='| xargs -0'
 alias -g XG='| xargs egrep'
 alias -g X='| xargs'
 
+# cpufreq
+alias cpu-powersafe="sudo cpufreq-set -r -g performance"
+alias cpu-performance="sudo cpufreq-set -r -g powersave"
+
+
 alias mc="LANG=C mc"
 #alias nautilus="nautilus --browser --no-desktop"
 #
@@ -197,6 +208,10 @@ alias bkl='nocorrect bundle exec kitchen login'
 alias be='nocorrect bundle exec'
 alias bk='nocorrect bundle exec kitchen'
 
+# kubernetes kubectl
+alias kdp='kubectl delete po'
+alias kgp='kubectl get po'
+
 
 #ruby
 #alias gem="sudo gem"
@@ -218,3 +233,6 @@ alias urlize="sed 's/ /%20/g'"
 # beepme
 alias bs='beepme'
 alias bf='beepme fail'
+
+# direnv
+which direnv >/dev/null && eval "$(direnv hook zsh)" || true
