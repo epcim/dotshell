@@ -5,9 +5,12 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
+ZSH_THEME="robbyrussell"
 ZSH_THEME="solarized-powerline"
 ZSH_THEME="powerline"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel9k/powerlevel9k"
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -48,7 +51,10 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # REMOVED: common-aliases
-plugins=(z extract history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant tmux svn sudo sublime vi-mode screen )
+plugins=(z extract history-substring-search git colorized colored-man copydir copyfile django docker fabric gem python rsync ruby virtualenv vagrant svn sudo vi-mode )
+# my alternatives
+# plugins=(z extract history-substring-search git colorize colored-man copydir copyfile django docker fabric gem knife python rsync ruby virtualenv vagrant svn tmux sudo sublime vi-mode screen )
+
 #virtualenvwrapper 
 #
 source $ZSH/oh-my-zsh.sh
@@ -105,9 +111,10 @@ fi
 ## my
 
 touch $HOME/.env
-source $HOME/.env
 touch $HOME/.zshrc.aliases
 touch $HOME/.zshrc.local
+
+source $HOME/.env
 source $HOME/.zshrc.aliases
 source $HOME/.zshrc.local
 
@@ -181,18 +188,19 @@ setopt hist_save_no_dups
 #zle -N history-beginning-search-backward-end history-search-end
 #zle -N history-beginning-search-forward-end history-search-end
 
-# history search # Ubuntu 12.04 users: bindkey '^[[A'
-bindkey '\e[A' history-substring-search-up
-bindkey '\e[B' history-substring-search-down
+## Deprecated with fzf
+## history search # Ubuntu 12.04 users: bindkey '^[[A'
+#bindkey '\e[A' history-substring-search-up
+#bindkey '\e[B' history-substring-search-down
+#
+## bind k and j for VI mode
+#bindkey -M vicmd 'k' history-substring-search-up
+#bindkey -M vicmd 'j' history-substring-search-down
 
-# bind k and j for VI mode
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-#for keymap in v a; do
-#      bindkey -$keymap ^f  history-incremental-search-backward
-#done
-bindkey "^R" history-incremental-search-backward
+##for keymap in v a; do
+##      bindkey -$keymap ^f  history-incremental-search-backward
+##done
+#bindkey "^R" history-incremental-search-backward
 
 ## never ever beep ever
 setopt NO_BEEP

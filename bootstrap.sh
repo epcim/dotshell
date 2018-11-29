@@ -27,20 +27,30 @@ test -d $HOME/.homesick/repos/dotfiles || \
 test -d $HOME/.homesick/repos/dotvim || \
     homeshick clone --batch git://github.com/epcim/dotvim.git
     
+homeshick link dotshell
     
 # fish & oh-my-fish
 curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
 
-# zsh & zsh powerline theme
+# zsh & powerline
 homeshick clone --batch robbyrussell/oh-my-zsh
-homeshick clone --batch https://github.com/jeremyFreeAgent/oh-my-zsh-powerline-theme.git
 homeshick clone --batch https://github.com/seebi/dircolors-solarized
-
-homeshick link dotshell
-
-ln -s $HOME/.homesick/repos/oh-my-zsh-powerline-theme/powerline.zsh-theme $HOME/.oh-my-zsh/themes/
 ln -s $HOME/.homesick/repos/dircolors-solarized/dircolors.256dark $HOME/.dircolors
 ln -s $HOME/.homesick/repos/dircolors-solarized/dircolors.256dark $HOME/.dir_colors
+#git clone --batch https://github.com/jeremyFreeAgent/oh-my-zsh-powerline-theme.git ~/.oh-my-zsh/custom/themes/powerline
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+# DEPRECATED
+#sudo pip install --user powerline-status
+#sudo pip install powerline-status
+git clone https://github.com/powerline/fonts $HOME/.homesick/repos/powerline-fonts
+$HOME/.homesick/repos/powerline-fonts/install.sh
+
+#git clone https://github.com/ryanoasis/nerd-fonts $HOME/.homesick/repos/nerd-fonts
+
+#FIXME, on osx only
+brew tap caskroom/fonts
+brew cask install font-hack-nerd-font
+
 
 echo "call all bootstrap.sh (in other repos)"
 find $HOME/.homesick/repos/ -name "bootstrap.sh" -type f -exec echo "{}" ";"
