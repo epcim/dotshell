@@ -1,6 +1,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -64,7 +66,7 @@ source $ZSH/oh-my-zsh.sh
 if [ PMI_ZSHRC_SET = 0 ]; then exit 0 ; fi
 export PMI_ZSHRC_SET=0
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/hg2g/apps/npm/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH:$HOME/hg2g/apps/npm/bin
 export MANPATH="/usr/local/man:$MANPATH"
 
 
@@ -86,7 +88,7 @@ fi
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -350,4 +352,7 @@ __() {
 } && __
 
 
+#export XDG_CONFIG_HOME=$HOME/.config
 
+#autoload -U +X bashcompinit && bashcompinit
+#complete -o nospace -C /usr/local/bin/mc mc

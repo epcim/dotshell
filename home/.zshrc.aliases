@@ -48,12 +48,14 @@ alias ipconfig='sudo ifconfig '
 alias route='sudo route '
 alias iptables='sudo iptables '
 alias ssh-add='ssh-add < /dev/null'
+alias ssh="TERM=xterm-256color ssh"
 alias visudo='sudo visudo'
 alias systemctl='sudo systemctl'
 alias journalctl='sudo journalctl'
 alias vi='sudo vi'
 if $(which nvim > /dev/null); then
   alias vim='nvim'
+  alias vimdiff='nvim -d'
 fi
 #alias scrot='scrot "%Y-%m-%d_$wx$h.png" -e "mv $f ~/shots/$f"'
 alias scrot='scrot "screenshot_`date "+%Y-%m-%d-%H%M"`_$RANDOM.png" -e "mv $f ~/shots/$f"'
@@ -79,6 +81,8 @@ alias gs='git status '
 alias ga='git add '
 alias gb='git branch '
 alias gc='git commit'
+# on branchname id-some-fix (add commit msg "ref #id")
+alias gc="echo -e \"\n\nref #\$(( \$(git branch --show-current | awk -F- '{ print $1}') + 0))\" > /tmp/gitmessage; git commit \$(gpg --card-status > /dev/null 2>&1 && echo -S)"
 alias gd='git difftool'
 alias ge='git checkout '
 alias gco='git checkout '
@@ -89,6 +93,7 @@ alias got='git '
 alias get='git '
 alias gl='git lg'
 alias gh='git log --pretty=tformat:%H |xargs -n1 git show'
+
 
 ## git gr (npm install -g git-run)
 alias grd="gr git diff"
@@ -118,7 +123,9 @@ alias hsc='homeshick check'
 #vagrant
 alias va='vagrant'
 #markdown editor
-alias md='haroopad'
+#alias md='haroopad'
+alias md='vim "+Goyo 120x90%" '
+
 # bash
 alias ghi='history | egrep $@ '
 alias gha='egrep ~/.*history* -e $@'
@@ -193,7 +200,7 @@ alias kitchen='nocorrect kitchen'
 alias bundle='nocorrect bundle'
 
 #kitchen ci
-alias k='kitchen'
+#alias k='kitchen'
 alias kt='kitchen test'
 alias kv='kitchen verify'
 alias kl='kitchen list'
@@ -201,6 +208,9 @@ alias kli='kitchen list'
 alias klo='kitchen login'
 alias kd='kitchen destroy'
 alias kc='kitchen converge'
+
+# kitty terminal
+alias icat="kitty +kitten icat"
 
 # bundler
 alias bkc='nocorrect bundle exec kitchen converge'
@@ -210,9 +220,37 @@ alias be='nocorrect bundle exec'
 alias bk='nocorrect bundle exec kitchen'
 
 # kubernetes kubectl
-alias kdp='kubectl delete po'
-alias kgp='kubectl get po'
+alias k9s='nocorrect k9s --refresh 30 -n all'
+alias kubectl='nocorrect kubectl'
+alias k="nocorrect kubectl --namespace=\${KUBE_NS:-ves-system}"
+function kn() {
+  NS=$1
+  [[ $NS =~ mon ]] && NS=monitoring
+  [[ $NS =~ ves ]] && NS=ves-system
+  [[ $NS =~ kube ]] && NS=kube-system
+  [[ -z $NS ]] && kubectl get ns -o=custom-columns=NAME:.metadata.name --no-headers| smenu -F -t -n10 -l -D n:2
+  export KUBE_NS=$NS
+}
 
+# kubectl get pods alias
+## store Kubernetes pod name & namespace to env variable
+## expect servername has number behind last -
+[[ -z $ZSH_NAME ]] || setopt SH_WORD_SPLIT
+function get-pods() {
+  unset $(set | egrep "[a-z0-9]+[0-9]=" | awk -F= '{print $1}') &> /dev/null || true
+  # print and eval variables based on the pod name ($2, without dynamic part), with server index as suffix ($8)
+  eval "$(kubectl get po --all-namespaces -L app -o wide | sed 's/  / /g' | egrep '^(sre|monitoring|etcd|jenkins|ves-system)' | sed 's,.compute.internal,,' | tee /dev/stderr | grep -v 'NAMESPACE' | awk ' {pod_name=$2;gsub(/-[a-z0-9]{9,10}-[a-z0-9]{5}$|-[a-z0-9]{5}$/,"",$2);gsub(/-/,"_",$2);gsub(/.*-/,"",$8);printf "%s%s=\x27-n %s %s\x27\;\n", $2,$8, $1,pod_name}'|grep -v "^=" | egrep -v "^[0-9]*=")";
+}
+# to be able grep output
+alias p="get-pods 2>&1 | column -t"
+
+alias kdp='k delete po'
+function kgp() {
+  test -z "$@" && \
+    k get po -A -o wide ||\
+    k get po -A -o wide | egrep -i "$@"
+}
+alias kp=kgp
 
 #ruby
 #alias gem="sudo gem"
@@ -248,3 +286,41 @@ which code-insiders >/dev/null &&  alias code=code-insiders
 
 # direnv
 which direnv >/dev/null && eval "$(direnv hook zsh)" || true
+
+# cat with colors and git integration
+which bat >/dev/null && {
+  #alias cat="bat $*"
+  #alias cat0="/bin/cat $*" # for cases when you need plain `cat`
+  test -z "$@" && FORCELANG="-l yaml"
+  alias less="bat $FORCELANG $@"
+  alias less0="/bin/less $*" # for cases when you need plain `less`
+}
+alias bat='bat -p'
+
+
+# cli file manager
+# https://github.com/jarun/nnn
+alias n="LC_COLLATE=C nnn -e"
+
+# kapitan
+alias kapitan="docker run -t --rm -v $(pwd):/src:delegated deepmind/kapitan"
+
+# git fixes
+function gi(){
+  # to fix "gi tpush" etc..
+  [[ "$1" =~ ^t ]] && {
+    # strip first t from arg
+    git ${@/t/}
+  } || {
+    echo "not impl."
+  }
+}
+
+
+
+# shortcuts
+function fzf-vim() {
+  vim $(find . -maxdepth 6 |fzf)
+}
+zle -N fzf-vim
+bindkey -M viins '^E' fzf-vim
