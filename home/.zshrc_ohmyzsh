@@ -8,6 +8,8 @@ fi
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+# starship
+which starship && eval "$(starship init zsh)"
 
 
 # Set name of the theme to load.
