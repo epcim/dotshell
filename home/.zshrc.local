@@ -1,0 +1,16 @@
+
+# vscode
+alias code="/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron"
+
+# cd paths 
+export CDPATH="~/Workspace/f5:~/go/src/gopkg.volterra.us/:$CDPATH"
+
+# GO
+export GOPRIVATE=gopkg.volterra.us/*
+
+# VES
+function matrixcat()   {matrix decrypt --in ${1:-/dev/stdin} ${2} --out -|tee /dev/stderr|pbcopy}
+function matrix4ever() {matrix encrypt --in $1 --validity-period=0 ${2:--g sre@ves.io -g vcs-sre@f5.com}}
+function matrixshare() {matrix encrypt --in ${@:--} --out -}
+
+
