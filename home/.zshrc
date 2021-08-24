@@ -41,23 +41,31 @@ setopt CORRECTALL            # typo (FYI: ~/.profile loads thefuck)
 setopt NO_BEEP
 setopt EXTENDED_GLOB
 setopt NO_CLOBBER            # protect stdin redirect
+setopt NOBGNICE              # background process on full speed
 # file/path completion
-setopt AUTOLIST              # list options
+setopt COMPLETE_IN_WORD      # complete in the middle of a word
+setopt AUTO_LIST             # list options
 setopt NO_LIST_AMBIGUOUS     # on the first TAB (not 2nd)
 setopt LIST_PACKED           # list shortcuted
 setopt AUTOCD                # prefix "cd" before dirname
 
 # HELPERS
+# completion
+zstyle ':completion:*' completer _files _expand _complete
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+autoload -Uz compinit        # std rules for autocomplete
+compinit
+zstyle ':completion:*' menu select
 # fzf
 fzf=$(which fzf)
 [ -x $fzf -a -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse' # --border
+#[ -x ~/.zsh/plugins/fzf-tab ] && source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh || true
 # ruppa/z (path shortcuts)
 test -e ~/bin/z.sh &&\
   source ~/bin/z.sh
-
-autoload zmv                 # group rename: zmv (*).doc $1.txt | zmv (**/)README $1CTIMNE
-#autoload -U compinit        # std rules for autocomplete
+# rename
+autoload zmv                # group rename: zmv (*).doc $1.txt | zmv (**/)README $1CTIMNE
 
 expand-alias() {
 	# for safety, in case there's an = which will mess things up...

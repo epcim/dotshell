@@ -1,4 +1,11 @@
 
+# zsh
+precmd () { 
+  # change kitty/terminal title to current $ENV or directory path relative to $HOME
+  TERM_TITLE=${ENV:-${CLUSTER_NAME:-${AWS_PROFILE:-$(realpath -sL --relative-base=$HOME $PWD)}}}
+  print -Pn "\e]0;$TERM_TITLE\a"
+}
+
 # vscode
 alias code="/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron"
 

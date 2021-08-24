@@ -311,6 +311,9 @@ which bat >/dev/null && {
 }
 alias bat='bat -p'
 
+# readme
+alias readme='bat -p [Rr][Ee][Aa][Dd][Mm][Ee]*'
+
 
 # cli file manager
 # https://github.com/jarun/nnn
