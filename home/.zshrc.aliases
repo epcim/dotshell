@@ -226,6 +226,8 @@ alias bk='nocorrect bundle exec kitchen'
 
 # kubernetes kubectl
 alias k9s='nocorrect k9s --refresh 30 -n all'
+alias kgq='k get quota'
+alias kge='k get events --sort-by=".lastTimestamp"'
 alias kubectl='nocorrect kubectl'
 alias k="nocorrect kubectl --namespace=\${KUBE_NS:-ves-system}"
 function kn() {
