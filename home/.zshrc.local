@@ -2,8 +2,9 @@
 # zsh
 precmd () { 
   # change kitty/terminal title to current $ENV or directory path relative to $HOME
-  TERM_TITLE=${ENV:-${CLUSTER_NAME:-${AWS_PROFILE:-$(realpath -sL --relative-base=$HOME $PWD)}}}
-  print -Pn "\e]0;$TERM_TITLE\a"
+  TERM_TITLE=${(U)ENV:-${(U)AWS_PROFILE:-$(basename ${(U)KUBECONFIG:-"./"})}}
+  TERM_TITLE=${TERM_TITLE:-$(realpath -sL --relative-base=$HOME $PWD)}
+  print -Pn "\e]0;${TERM_TITLE//.Y*ML/}\a"
 }
 
 # vscode
@@ -19,5 +20,7 @@ export GOPRIVATE=gopkg.volterra.us/*
 function matrixcat()   {matrix decrypt --in ${1:-/dev/stdin} ${2} --out -|tee /dev/stderr|pbcopy}
 function matrix4ever() {matrix encrypt --in $1 --validity-period=0 ${2:--g sre@ves.io -g vcs-sre@f5.com}}
 function matrixshare() {matrix encrypt --in ${@:--} --out -}
+
+alias vesctl=/Users/p.michalec/go/src/gopkg.volterra.us/vesctl/build_out/vesctl
 
 

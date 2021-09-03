@@ -232,7 +232,6 @@ alias kubectl='nocorrect kubectl'
 alias k="nocorrect kubectl --namespace=\${KUBE_NS:-ves-system}"
 function kn() {
   NS=$1
-  [[ $NS =~ mon ]] && NS=monitoring
   [[ $NS =~ ves ]] && NS=ves-system
   [[ $NS =~ kube ]] && NS=kube-system
   [[ -z $NS ]] && kubectl get ns -o=custom-columns=NAME:.metadata.name --no-headers| smenu -F -t -n10 -l -D n:2
@@ -309,10 +308,14 @@ which bat >/dev/null && {
   alias less="bat $FORCELANG $@"
   alias less0="/bin/less $*" # for cases when you need plain `less`
 }
-alias bat='bat -p'
 
 # readme
-alias readme='bat -p [Rr][Ee][Aa][Dd][Mm][Ee]*'
+alias readme='find . .. ../.. ../../.. -name "README*" -o -name "readme*" -o -name "Readme*" -maxdepth 1 | head -n1 | xargs -n1 bat'
+
+# diff
+batdiff() {
+    git diff --name-only --diff-filter=d | xargs bat --diff
+}
 
 
 # cli file manager
@@ -343,6 +346,10 @@ zle -N fzf-vim
 bindkey -M viins '^E' fzf-vim
 
 
+# trimnew line chars
+function trimnewline() {
+  mv -f $1 $1.tmp; tr -d 'n' < $1.tmp > $1; rm -f $1.tmp
+}
 
 # yubikey
 function ykenv() {
