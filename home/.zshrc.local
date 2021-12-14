@@ -16,11 +16,48 @@ export CDPATH="~/Workspace/f5:~/go/src/gopkg.volterra.us/:$CDPATH"
 # GO
 export GOPRIVATE=gopkg.volterra.us/*
 
+# DOCKER
+alias docker="limactl shell vesdev podman"
+alias docker-compose="limactl shell vesdev podman-compose"
+
 # VES
 function matrixcat()   {matrix decrypt --in ${1:-/dev/stdin} ${2} --out -|tee /dev/stderr|pbcopy}
 function matrix4ever() {matrix encrypt --in $1 --validity-period=0 ${2:--g sre@ves.io -g vcs-sre@f5.com}}
 function matrixshare() {matrix encrypt --in ${@:--} --out -}
 
 alias vesctl=/Users/p.michalec/go/src/gopkg.volterra.us/vesctl/build_out/vesctl
+
+fucntion ssh-ce-demo1() {
+  ssh-ce vesop@master-2.pa4-par-dev.int.volterra.us.local.acorus.net $@
+}
+
+fucntion ssh-ce-staging() {
+  ssh-ce vesop@master-2.sv10-sjc-dev.int.volterra.us.local.acorus.net $@
+}
+
+fucntion ssh-ce-prod() {
+  ssh-ce vesop@master-2.pa4-par.int.ves.io.local.acorus.net $@
+}
+
+fucntion ssh-ce() {
+  RE="$1"
+  CE_NM="$2"
+  CE_IP="$(ssh ${RE} dig @10.3.0.10 +short ver.${CE_NM})"
+  shift
+  shift
+  ssh $@ -AJ ${RE} vesop@${CE_IP}
+}
+
+
+fucntion scp-ce-demo1() {
+  scp-ce vesop@master-2.pa4-par-dev.int.volterra.us.local.acorus.net $@
+}
+
+fucntion scp-ce() {
+  RE="$1"
+  CE_NM="$2"
+  CE_IP="$(ssh ${RE} dig @10.3.0.10 +short ver.${CE_NM})"
+  scp -AJ ${RE} $3 vesop@${CE_IP}:$4
+}
 
 

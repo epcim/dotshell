@@ -47,12 +47,12 @@ alias solve_mp='sudo ~/bin/solve_mp '
 alias s='esearch'
 alias g='egrep -i'
 alias ip='sudo ip'
-alias ifconfig='sudo ifconfig '
-alias ipconfig='sudo ifconfig '
+#alias ifconfig='sudo ifconfig '
+#alias ipconfig='sudo ifconfig '
 alias route='sudo route '
 alias iptables='sudo iptables '
 alias ssh-add='ssh-add < /dev/null'
-alias ssh="TERM=xterm-256color ssh"
+#alias ssh="TERM=xterm-256color /usr/bin/ssh" # disabled due yk?
 alias visudo='sudo visudo'
 alias systemctl='sudo systemctl'
 alias journalctl='sudo journalctl'
@@ -353,15 +353,12 @@ function trimnewline() {
 
 # yubikey
 function ykenv() {
-  SSH_AGENT_PID=$SSH_AGENT_PID_YK SSH_AUTH_SOCK=$SSH_AUTH_SOCK_YK "$@"
+  SSH_AGENT_PID="$SSH_AGENT_PID_YK" SSH_AUTH_SOCK="$SSH_AUTH_SOCK_YK" $@
 }
 
 function ykssh() {
-  ykenv ssh $@
-}
-
-function ykssh-add() {
-  ykenv ssh-add $@
+   [[ ! -z "$SSH_AGENT_PID_YK" ]] || ykssh-agent
+   ykenv ssh $@
 }
 
 function ykssh-agent() {
@@ -378,9 +375,7 @@ function ykssh-agent-init() {
 	local ssh_auth_sock=${SSH_AUTH_SOCK}
 	local ssh_agent_pid=${SSH_AGENT_PID}
 
-  # agent
-  # whitelist PKCS#11 provider
-  # add provider
+  # whitelist PKCS#11 provider and add keys
   test "$(uname -s)" = "Darwin" && {
     local YPTV=$(yubico-piv-tool --version |awk '{print $2}')
     eval $(ssh-agent -s -P "/usr/local/lib/*,/usr/local/Cellar/yubico-piv-tool/$YPTV/lib/libykcs11.$YPTV.dylib"|grep -v echo)
@@ -396,21 +391,4 @@ function ykssh-agent-init() {
 	export SSH_AGENT_PID="${ssh_agent_pid}"
   ln -sf $SSH_AUTH_SOCK_YK $HOME/.ssh/.yubikey.sock
 }
-
-# # DEPRECATED
-# function ykssh() {
-# 	local ssh_auth_sock=${SSH_AUTH_SOCK}
-# 	local ssh_agent_pid=${SSH_AGENT_PID}
-#   local YPTV=$(yubico-piv-tool --version |awk '{print $2}')
-#   eval $(ssh-agent -s -P "/usr/local/Cellar/yubico-piv-tool/$YPTV/lib/libykcs11.$YPTV.dylib"|grep -v echo)
-#   ssh-add -s /usr/local/Cellar/yubico-piv-tool/$YPTV/lib/libykcs11.$YPTV.dylib
-# 	ret=$?
-# 	if [[ $ret -eq 0 ]]; then
-# 		command ssh "$@" || ret=$?
-# 	fi
-# 	ssh-agent -k > /dev/null
-# 	export SSH_AUTH_SOCK="${ssh_auth_sock}"
-# 	export SSH_AGENT_PID="${ssh_agent_pid}"
-# 	return $ret
-# }
 
