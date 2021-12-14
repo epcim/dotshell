@@ -2,7 +2,7 @@
 # zsh
 precmd () { 
   # change kitty/terminal title to current $ENV or directory path relative to $HOME
-  TERM_TITLE=${(U)ENV:-${(U)AWS_PROFILE:-$(basename ${(U)KUBECONFIG:-"./"})}}
+  TERM_TITLE=${(U)ENV:-${(U)AWS_PROFILE:-$(basename ${(U)KUBECONFIG:-""})}}
   TERM_TITLE=${TERM_TITLE:-$(realpath -sL --relative-base=$HOME $PWD)}
   print -Pn "\e]0;${TERM_TITLE//.Y*ML/}\a"
 }
