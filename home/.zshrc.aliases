@@ -46,7 +46,7 @@ alias solve_mp='sudo ~/bin/solve_mp '
 #alias e='sudo emerge'
 alias s='esearch'
 alias g='egrep -i'
-alias ip='sudo ip'
+#alias ip='sudo ip'
 #alias ifconfig='sudo ifconfig '
 #alias ipconfig='sudo ifconfig '
 alias route='sudo route '
@@ -293,9 +293,6 @@ function psg() {
 alias bs='beepme'
 alias bf='beepme fail'
 
-
-# vscode
-which code-insiders >/dev/null &&  alias code=code-insiders
 
 # direnv
 which direnv >/dev/null && eval "$(direnv hook zsh)" || true
